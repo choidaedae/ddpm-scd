@@ -1,0 +1,87 @@
+{
+    "name": "DDPM-scd-DDPM",
+    "phase": "train", // train (train+val) or test
+    "distributed": false, // option for the distibuted training 
+    "gpu_ids": [
+        0,1,2,3 // multi gpu 
+    ],
+    "path": { //set the path
+        "log": "logs",
+        "tb_logger": "tb_logger",
+        "results": "results",
+        "checkpoint": "checkpoint",
+        "resume_state": null // if you want to train 
+        // "resume_state": "experiments/ddpm-RS-Unet_220426_160536/checkpoint/I110000_E88"
+    },
+    "datasets": {
+        "train": {
+            "name": "SECOND", // Options: "SECOND", "loveDA"
+            "dataroot": "datasets/DDPM/loveda_256/", // Options: "datasets/DDPM/loveda_256", "datasets/DDPM/SECOND" 
+            "resolution": 256, // high resolution
+            "batch_size": 8,
+            "num_workers": 4,
+            "use_shuffle": true,
+            "data_len": -1 // -1 represents all data used in train
+        },
+        "val": { // train data와 test data는 같은 경로에 있음 
+            "name": "loveDA", // Options: "LEVIR-CD-256", "Million-AID"
+            "resolution": 256,
+            "data_len": 10 // default:10 
+        }
+    },
+    "model": {
+        "unet": {
+            "in_channel": 3,
+            "inner_channel": 128,
+            "out_channel": 3,
+            "channel_mults": [
+                1,
+                2,
+                4,
+                8,
+                8
+            ],
+            "attn_res": [
+                16
+            ],
+            "res_blocks": 2,
+            "dropout": 0.2,
+            "norm_groups": 32
+        },
+        "beta_schedule": { // use munual beta_schedule for acceleration
+            "train": {
+                "schedule": "cosine",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            },
+            "val": {
+                "schedule": "cosine",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            }
+        },
+        "diffusion": {
+            "image_size": 256,
+            "channels": 3, //sample channel
+            "loss": "l2", //options "l1" or "l2"
+            "conditional": false // unconditional generation or conditional generation(super_resolution)
+        }
+    },
+    "train": {
+        "n_iter": 1000000,
+        "val_freq": 1e4,
+        "save_checkpoint_freq": 1e4,
+        "print_freq": 100,
+        "optimizer": {
+            "type": "adamw",
+            "lr": 1e-5
+        },
+        "ema_scheduler": { // not used now
+            "step_start_ema": 5000,
+            "update_ema_every": 1,
+            "ema_decay": 0.9999
+        }
+    }
+}
