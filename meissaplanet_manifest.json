@@ -1,0 +1,53 @@
+{
+    "_manifest_version": 1,
+    "name": "semantic change detection",
+    "display_name": "semantic change detection",
+    "type": "processing",
+    "description": "semantic change detection using DDPM",
+    "author": "meissaplanet",
+    "internal": {
+      "repo_name": "semantic-change-detection",
+      "checkpoint_model": "ddpm-cd",
+      "checkpoint_version": "0.1"
+    },
+    "gpu": {
+      "enabled": true,
+      "count": 1
+    },
+    "input": [
+      {
+        "format": {
+          "or": [
+            "jpeg",
+            "png",
+            "jpg"
+          ]
+        },
+        "bundles": 2,
+        "input_images":[
+            "pre_image",
+            "post_image"
+        ],
+        "sensor": "*",
+        "bands": [
+          "red",
+          "green",
+          "blue"
+        ]
+      }
+    ],
+    "output": [
+      {
+        "format": "image",
+        "bundles": 5,
+        "output_images":[
+            "pre_seg_map", 
+            "post_seg_map", 
+            "binary_change_map", 
+            "pre_scd_map", 
+            "post_scd_map"
+        ],
+        "sensor": "*"
+      }
+    ]
+  }

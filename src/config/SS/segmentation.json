@@ -1,0 +1,94 @@
+{
+    "exp_dir": "experiments/230821", 
+    "model_type": "ddpm",
+    "model_name": "model_0.pth",
+    "distributed": true,
+    "gpu_ids": [0, 1, 2, 3, 4, 5],
+    
+    "category": "loveda_256_no0",
+    "number_class": 7,
+    "ignore_label": 255,
+
+    "load": false,
+  
+    "training_path": "datasets/SS/loveda_256/train_no_0",
+    "validation_path": "datasets/SS/loveda_256/val",
+    "testing_path": "datasets/SS/loveda_256/test",
+    "model_path": "checkpoints/DDPM/pretrained_ddpm_example_gen.pth",
+    
+    "dim": [256, 256, 11520],
+    "steps": [50, 150, 250],
+    "blocks": [5, 6, 7, 8, 12],
+  
+    "start_model_num": 0,
+    "model_num": 10,
+    "data_load_size": 50,
+    "inner_batch_size": 128000,
+    "max_training": 25600,
+    
+    "upsample_mode":"bilinear",
+    "training_number": 10000,
+    "testing_number": 1,
+  
+    "share_noise": true,
+    "input_activations": false,
+
+    "model": {
+        "which_model_G": "sr3", 
+        "finetune_norm": false,
+        "unet": {
+            "in_channel": 3,
+            "out_channel": 3,
+            "inner_channel": 128,
+            "norm_groups": 32,
+            "channel_mults": [
+                1,
+                2,
+                4,
+                8,
+                8
+            ],
+            "attn_res": [
+                16
+            ],
+            "res_blocks": 2,
+            "dropout": 0.2,
+            "with_noise_level_emb": true
+        },
+        "beta_schedule": {
+            "train": {
+                "schedule": "linear",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            },
+            "val": {
+                "schedule": "linear",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            },
+            "test": {
+                "schedule": "linear",
+                "n_timestep": 2000,
+                "linear_start": 1e-6,
+                "linear_end": 1e-2
+            }
+        },
+        "diffusion": {
+            "image_size": 256,
+            "channels": 3,
+            "loss": "l2", 
+            "conditional": false,
+            "diffusion_steps": 2000,
+            "learn_sigma": false,
+            "sigma_small": false,
+            "noise_schedule": "linear",
+            "use_kl": false,
+            "predict_xstart": false,
+            "rescale_timesteps": false,
+            "rescale_learned_sigmas": false,
+            "timestep_respacing": ""
+        }
+   }
+}
