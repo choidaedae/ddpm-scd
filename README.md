@@ -1,4 +1,6 @@
-DDPM-SCD train script 
+# Semantic Change Detection Using Denoising Diffusion Probabilistic Model (DDPM-scd)
+
+##DDPM-SCD train script 
 
 1. If you want to training DDPM, 
 python train_ddpm.py
