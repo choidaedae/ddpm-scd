@@ -5,13 +5,13 @@
 ## How to use it?
 * It requires Docker, Pytorch 2.0.1, CUDA 11.8, CUDNN 8700. 
 * To make environment to get ready for running model, build Docker following below
+* Or you can also use conda environment 
 
 ### if you want to use Docker 
 #### 1. Docker build
   docker build {image_name} . 
 #### 2. Docker run 
-  docker run 
-#### 3. Docker
+  docker run --gpus all
 
 ### If you want to use conda 
 #### 1. Create Conda virtual environment
