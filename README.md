@@ -1,4 +1,14 @@
 # Semantic Change Detection Using Denoising Diffusion Probabilistic Model (DDPM-scd)
+* This work
+
+## How to use it?
+It requires Docker, Pytorch 2.0.1, CUDA 11.8, CUDNN 8700. 
+
+### Docker build
+
+### Docker run 
+
+### Docker
 
 ## DDPM-SCD train script 
 
