@@ -1,4 +1,4 @@
-torch==2.0.1
+# assume that built docker already (no need to pytorch)
 torchvision >=0.11.1
 blobfile==1.2.7
 tqdm==4.62.3

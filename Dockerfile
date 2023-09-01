@@ -1,10 +1,10 @@
 #FROM nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04
 
 ARG PYTORCH="2.0.1"
-ARG CUDA="11.8"
+ARG CUDA="11.7"
 ARG CUDNN="8"
 
-# FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
+FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-runtime
 
 # Build time argument
 ARG manifest

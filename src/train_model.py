@@ -62,8 +62,6 @@ def train(opt, Net, diffusion, optimizer, lr_scheduler, train_loader, logger):
             
             cd.feed_data(fcd_A, fcd_B, train_data) 
             
-            batch = 1
-            
             fss_A = feature_extractor(train_data['A'], noise = None)
             fss_B = feature_extractor(train_data['B'], noise = None)
             

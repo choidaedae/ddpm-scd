@@ -1,0 +1,2 @@
+wget ftp://192.168.0.235/checkpoint/semantic-change-detection/mask2former_landcover_segmentation_v1.pth
+wget ftp://192.168.0.235/checkpoint/semantic-change-detection/mask2former_landcover_segmentation_v1.pth

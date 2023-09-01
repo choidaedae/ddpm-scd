@@ -12,10 +12,13 @@ import os
 import numpy as np
 import cv2
 from models.ddpmscd import ddpmscd as ddpmscd
+from src.feature_extractors import create_feature_extractor, collect_features
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '4, 5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 def test(opt, Net, diffusion, test_loader, logger, evaluate):
+    
+    feature_extractor = create_feature_extractor(**opt['segmentation'])
     
     cd = Net.module.change_detection
     ss = Net.module.semantic_segmentation
@@ -23,7 +26,7 @@ def test(opt, Net, diffusion, test_loader, logger, evaluate):
     cd._clear_cache()
     ss._clear_cache()
 
-    test_result_path = '{}/train'.format(opt['path']
+    test_result_path = '{}/test'.format(opt['path']
                                         ['results'])
     os.makedirs(test_result_path, exist_ok=True)
     torch.cuda.empty_cache()
@@ -49,17 +52,25 @@ def test(opt, Net, diffusion, test_loader, logger, evaluate):
                 del fd_A_t, fd_B_t
                 
         cd.feed_data(fcd_A, fcd_B, test_data) 
-        fss_A = diffusion.netG.module.feats_for_pc(test_data['A'])
-        fss_B = diffusion.netG.module.feats_for_pc(test_data['B'])
         
-        ss.feed_data(fss_A, fss_B, test_data) # 마찬가지 
+        fss_A = feature_extractor(test_data['A'], noise = None)
+        fss_B = feature_extractor(test_data'B'], noise = None)
+        
+        fss_A = collect_features(opt['model_ss'], fss_A)
+        fss_B = collect_features(opt['model_ss'], fss_B)
+
+        x1 = fss_A.view(opt['model_ss']['dim'][-1], -1).permute(1, 0).unsqueeze(dim = 0)
+        x2 = fss_B.view(opt['model_ss']['dim'][-1], -1).permute(1, 0).unsqueeze(dim = 0)
+
+                
+        ss.feed_data(x1, x2, test_data)
+        
         ss.get_feature()
         
         seg_A, seg_B, change = Net(ss.fss_A, ss.fss_B, cd.fcd_A, cd.fcd_B)
-        
-        loss = Net.module.optimize_parameters(seg_A, seg_B, change, test_data)
         Net.module.collect_running_batch_states(seg_A, seg_B, change, test_data)
         
+        '''
         if evaluate: # evaluate한다면 성능 측정 
             Net.module.collect_running_batch_states(seg_A, seg_B, change, test_data)
 
@@ -68,6 +79,7 @@ def test(opt, Net, diffusion, test_loader, logger, evaluate):
                     (current_step, len(test_loader), logs['running_acc'])
             logger_test.info(message)
 
+        '''
 
         # Visuals
         visuals_cd = cd.get_current_visuals(change, test_data)
@@ -90,8 +102,8 @@ def test(opt, Net, diffusion, test_loader, logger, evaluate):
         
          # for semantic segmentation
         logs = ss.get_current_log()
-        message = '[Training SS]. epoch: [%d/%d]. Iter: [%d/%d], SS_loss: %.5f, running_mIoU: %.5f\n' %\
-        (current_epoch, n_epoch-1, current_step, len(train_loader), logs['l_sem'], logs['running_mIoU'])
+        message = '[Test SS]. Iter: [%d/%d], SS_loss: %.5f, running_mIoU: %.5f\n' %\
+        (current_step, len(test_loader), logs['l_sem'], logs['running_mIoU'])
         logger.info(message)
         
         #visuals
