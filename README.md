@@ -1,11 +1,14 @@
 # Semantic Change Detection Using Denoising Diffusion Probabilistic Model (DDPM-scd)
 * This work is done during the internship in Meissa Planet.
 * This model is large vision model which can do some remote sensing image analysis tasks, such as change detection, semantic segmentation, and semantic change detection.
+
+*  ![DDPM-scd Architecture](https://github.com/choidaedae/ddpm-scd/assets/105369646/b46eb7bd-fc59-4736-994b-dbdd4a74357a)
+
   
 ## How to use it?
 * It requires Docker, Pytorch 2.0.1, CUDA 11.8, CUDNN 8700. 
 * To make environment to get ready for running model, build Docker following below
-* Or you can also use conda environment 
+* Or you can also use conda environment
 
 ### if you want to use Docker 
 #### 1. Docker build
