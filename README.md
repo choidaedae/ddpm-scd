@@ -2,7 +2,8 @@
 * This work is done during the internship in Meissa Planet.
 * This model is large vision model which can do some remote sensing image analysis tasks, such as change detection, semantic segmentation, and semantic change detection.
 
-*  ![DDPM-scd Architecture](https://github.com/choidaedae/ddpm-scd/assets/105369646/b46eb7bd-fc59-4736-994b-dbdd4a74357a)
+![DDPM-scd Architecture]((https://github.com/choidaedae/ddpm-scd/assets/105369646/5c98135c-32f5-4539-85ca-b185586e02cd)
+
 
   
 ## How to use it?
